@@ -64,12 +64,12 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 }
  
 bool ConnectionHandler::getLine(std::string& line) {
-    return getFrameAscii(line, '\n');
+    return getFrameAscii(line, ';');
 }
 
 bool ConnectionHandler::sendLine(std::string& line) {
-    encode(**line);
-    return sendFrameAscii(line, '\n');
+    encode(line); //todo: switch cases like in java decode
+    return sendFrameAscii(line, ';');
 }
  
 bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
@@ -103,8 +103,8 @@ void ConnectionHandler::close() {
     }
 }
 
-void encode(std::string* line){
-
+void encode(std::string& line){
+    std::cout << "damn" << std::endl;
 }
 
 void decode(std::string* line){
