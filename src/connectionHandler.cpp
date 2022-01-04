@@ -68,6 +68,7 @@ bool ConnectionHandler::getLine(std::string& line) {
 }
 
 bool ConnectionHandler::sendLine(std::string& line) {
+    encode(**line);
     return sendFrameAscii(line, '\n');
 }
  
@@ -100,4 +101,12 @@ void ConnectionHandler::close() {
     } catch (...) {
         std::cout << "closing failed: connection already closed" << std::endl;
     }
+}
+
+void encode(std::string* line){
+
+}
+
+void decode(std::string* line){
+
 }
