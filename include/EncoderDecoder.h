@@ -4,12 +4,16 @@
 #include <string>
 #include <iostream>
 
+
 class EncoderDecoder{
 public:
-    byte[] encode();
-
+    bool encode(std::string& line);
+    bool decode(std::string& line);
+    EncoderDecoder();
 
 private:
+    void shortToBytes(short num, char* bytesArr);
+    short bytesToShort(char* bytesArr);
 
 
 

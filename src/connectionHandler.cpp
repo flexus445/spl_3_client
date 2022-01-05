@@ -68,7 +68,6 @@ bool ConnectionHandler::getLine(std::string& line) {
 }
 
 bool ConnectionHandler::sendLine(std::string& line) {
-    encode(line); //todo: switch cases like in java decode
     return sendFrameAscii(line, ';');
 }
  
