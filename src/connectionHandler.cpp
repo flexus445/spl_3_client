@@ -102,11 +102,3 @@ void ConnectionHandler::close() {
         std::cout << "closing failed: connection already closed" << std::endl;
     }
 }
-
-void encode(std::string& line){
-    std::cout << "damn" << std::endl;
-}
-
-void decode(std::string* line){
-
-}

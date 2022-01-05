@@ -48,9 +48,6 @@ public:
     // Close down the connection properly.
     void close();
 
-    void encode(std::string& line);
-
-    void decode(std::string* line);
  
 }; //class ConnectionHandler
  
