@@ -8,7 +8,7 @@
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
 int main (int argc, char *argv[]) {
-    //todo: change name, open 2 threads, encoder-decoder
+    //todo: change name
     //todo: add \n to all prints for the client
     //todo: check what to do with returned messages: process here of in encdec
     EncoderDecoder encDec1;
@@ -59,7 +59,7 @@ int main (int argc, char *argv[]) {
         int spaceAt = answer.find_first_of(' ');
         std::string opType = answer.substr(0,spaceAt);
 		int len=answer.length();
-        answer.resize(len-1); //to remove the ; at the end
+//        answer.resize(len-1); //to remove the ; at the end
         std::cout << answer << std::endl;
         /*
         if(answer=="ACK"){

@@ -58,7 +58,6 @@ bool EncoderDecoder::encode(std::string& line) {
         line.append(opCodeBytes + content + zero);
     }
     else if(opType=="PM"){
-        //todo: add time and date
         //todo: change java decoder for date
         std::string username = words.at(1);
         std::string content = words.at(2);
@@ -102,9 +101,13 @@ bool EncoderDecoder::encode(std::string& line) {
 
 
 bool EncoderDecoder::decode(std::string& line) {
+    line.resize(line.length()-1); //to remove the ; at the end
+
     std::vector<char> chars(line.begin(), line.end());
     char opCodeBytes[] {chars.at(0), chars.at(1)};
     short opCode = bytesToShort(opCodeBytes);
+    line="";
+
 
     if(opCode==9){ //notification
         char notificationType = chars.at(2);
@@ -123,7 +126,8 @@ bool EncoderDecoder::decode(std::string& line) {
         std::string type = "PM";
         if(notificationType=='1')
             type="Public";
-        printf("NOTIFICATION %s %s %s\n", type.c_str(), postingUser.c_str(), content.c_str());//todo: check it
+        line.append("NOTIFICATION " + type + " " + postingUser + " " + content + "\n");
+//        printf("NOTIFICATION %s %s %s\n", type.c_str(), postingUser.c_str(), content.c_str());//todo: check it
 
 
     }
@@ -137,19 +141,22 @@ bool EncoderDecoder::decode(std::string& line) {
                 content.append(&chars.at(i));//todo: check it
                 i++;
             }
-            printf("ERROR %d %s\n", messageOp, content.c_str());//todo: check it
+            line.append("ACK " + std::to_string(messageOp) + " " + content + "\n");
+
+//            printf("ERROR %d %s\n", messageOp, content.c_str());//todo: check it
         }
         else{
-//            std::cout << "ERROR " + messageOp + "\n" << std::endl;
-            printf("ERROR %d\n", messageOp);
+            line.append("ACK " + std::to_string(messageOp) + "\n");
+
+//            printf("ERROR %d\n", messageOp);
 
         }
     }
     else if(opCode==11){ //error
         char messageOpBytes[] {chars.at(0), chars.at(1)};
         short messageOp = bytesToShort(messageOpBytes);
-        printf("ERROR %d\n", messageOp);
-//        std::cout << "ERROR " + messageOp + "\n" << std::endl;
+//        printf("ERROR %d\n", messageOp);
+        line.append("ERROR " + std::to_string(messageOp) + "\n");
 
     }
     else{
