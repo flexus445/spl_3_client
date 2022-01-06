@@ -58,7 +58,6 @@ bool EncoderDecoder::encode(std::string& line) {
         line.append(opCodeBytes + content + zero);
     }
     else if(opType=="PM"){
-        //todo: change java decoder for date
         std::string username = words.at(1);
         std::string content = words.at(2);
         char zero = '\0';
@@ -66,7 +65,7 @@ bool EncoderDecoder::encode(std::string& line) {
         shortToBytes(6,opCodeBytes);
 
         time_t now = time(0);
-        char* dt = ctime(&now);
+        char* dt = ctime(&now); //format: Sat Jan  8 20:07:41 2011
         line.append(opCodeBytes + username + zero + content + zero + dt + zero);
     }
     else if(opType=="LOGSTAT"){
@@ -75,7 +74,6 @@ bool EncoderDecoder::encode(std::string& line) {
         line.append(opCodeBytes);
     }
     else if(opType=="STAT"){
-        //todo: change java decoder for splitting usernames
         std::string usernames = words.at(1);
         char zero = '\0';
         char* opCodeBytes;
