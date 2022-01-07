@@ -41,8 +41,8 @@ int main (int argc, char *argv[]) {
             }
             int spaceAt = line.find_first_of(' ');
             std::string opType = line.substr(0,spaceAt); //todo: remove?
-            if (line=="LOGOUT")
-                terminated=true;
+//            if (line=="LOGOUT")
+//                terminated=true;
         }
     });
     readingThread.detach();
@@ -58,7 +58,7 @@ int main (int argc, char *argv[]) {
         encDec2.decode(answer);
         int spaceAt = answer.find_first_of(' ');
         std::string opType = answer.substr(0,spaceAt);
-		int len=answer.length();
+//		int len=answer.length();
 //        answer.resize(len-1); //to remove the ; at the end
         std::cout << answer << std::endl;
         /*

@@ -46,59 +46,75 @@ bool EncoderDecoder::encode(std::string& line) {
         std::string password = words.at(2);
         std::string capcha = words.at(3);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(2,opCodeBytes);
-        line.append(opCodeBytes + username + zero + password + zero + capcha);
+        char opCodeBytes[2];
+        short opTypeShort = 2;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + username + zero + password + zero + capcha);
     }
     else if(opType=="LOGOUT"){
-        char* opCodeBytes;
-        shortToBytes(3,opCodeBytes);
-        line.append(opCodeBytes);
+        char opCodeBytes[2];
+        short opTypeShort = 3;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]));
     }
     else if(opType=="FOLLOW"){
         std::string follow_unfollow = words.at(1);
         std::string username = words.at(2);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(4,opCodeBytes);
-        line.append(opCodeBytes + follow_unfollow + zero + username + zero);
+        char opCodeBytes[2];
+        short opTypeShort = 4;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + follow_unfollow + zero + username + zero);
     }
     else if(opType=="POST"){
         std::string content = words.at(1);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(5,opCodeBytes);
-        line.append(opCodeBytes + content + zero);
+        char opCodeBytes[2];
+        short opTypeShort = 5;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + content + zero);
     }
     else if(opType=="PM"){
         std::string username = words.at(1);
         std::string content = words.at(2);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(6,opCodeBytes);
+        char opCodeBytes[2];
+        short opTypeShort = 6;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
 
         time_t now = time(0);
         char* dt = ctime(&now); //format: Sat Jan  8 20:07:41 2011
-        line.append(opCodeBytes + username + zero + content + zero + dt + zero);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + username + zero + content + zero + dt + zero);
     }
     else if(opType=="LOGSTAT"){
-        char* opCodeBytes;
-        shortToBytes(7,opCodeBytes);
-        line.append(opCodeBytes);
+        char opCodeBytes[2];
+        short opTypeShort = 7;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]));
     }
     else if(opType=="STAT"){
         std::string usernames = words.at(1);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(8,opCodeBytes);
-        line.append(opCodeBytes + usernames + zero);
+        char opCodeBytes[2];
+        short opTypeShort = 8;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + usernames + zero);
     }
     else if(opType=="BLOCK"){
         std::string username = words.at(1);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(12,opCodeBytes);
-        line.append(opCodeBytes + username + zero);
+        char opCodeBytes[2];
+        short opTypeShort = 12;
+//        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        line.append(/*to_string(opCodeBytes[0]) +*/ to_string(opCodeBytes[1]) + username + zero);
     }
     else{
         std::cout << "Illegal command" << std::endl;
