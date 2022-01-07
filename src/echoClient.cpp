@@ -40,7 +40,7 @@ int main (int argc, char *argv[]) {
                 break;
             }
             int spaceAt = line.find_first_of(' ');
-            std::string opType = line.substr(0,spaceAt);
+            std::string opType = line.substr(0,spaceAt); //todo: remove?
             if (line=="LOGOUT")
                 terminated=true;
         }

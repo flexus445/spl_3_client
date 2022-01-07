@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 //#include <stdio.h>
+using namespace std;
 
 
 EncoderDecoder::EncoderDecoder(){}
@@ -24,9 +25,21 @@ bool EncoderDecoder::encode(std::string& line) {
         std::string password = words.at(2);
         std::string birthday = words.at(3);
         char zero = '\0';
-        char* opCodeBytes;
-        shortToBytes(1,opCodeBytes);
-        line.append(opCodeBytes + username + zero + password + zero + birthday);
+        char opCodeBytes[2]; //todo: DO LIKE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        shortToBytes(1,opCodeBytes);
+        short opTypeShort = 1;
+        opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
+        opCodeBytes[1] = (opTypeShort & 0xFF);
+        cout << to_string(opCodeBytes[0]) + " + " + to_string(opCodeBytes[1]) << endl;
+
+//        if (opCode == 1){
+//            for (int i = 0; i < line.size(); ++i) {
+//                bytes[i+2] = line[i];
+//            }
+//            changeToZero(bytes,len);
+//            bytes[len-2] = '\0';
+//        }
+        line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + username + zero + password + zero + birthday);
     }
     else if(opType=="LOGIN"){
         std::string username = words.at(1);
