@@ -30,7 +30,7 @@ bool EncoderDecoder::encode(std::string& line) {
         short opTypeShort = 1;
         opCodeBytes[0] = ((opTypeShort >> 8) & 0xFF);
         opCodeBytes[1] = (opTypeShort & 0xFF);
-        cout << to_string(opCodeBytes[0]) + " + " + to_string(opCodeBytes[1]) << endl;
+//        cout << to_string(opCodeBytes[0]) + " + " + to_string(opCodeBytes[1]) << endl;
 
 //        if (opCode == 1){
 //            for (int i = 0; i < line.size(); ++i) {
@@ -116,7 +116,10 @@ bool EncoderDecoder::decode(std::string& line) {
 
     std::vector<char> chars(line.begin(), line.end());
     char opCodeBytes[] {chars.at(0), chars.at(1)};
-    short opCode = bytesToShort(opCodeBytes);
+
+//    int first = opCodeBytes[0] - '0';
+//    int second = opCodeBytes[1] - '0';
+    int opCode = convertTwoBytesToInt(opCodeBytes);
     line="";
 
 
@@ -143,8 +146,8 @@ bool EncoderDecoder::decode(std::string& line) {
 
     }
     else if(opCode==10){ //ack
-        char messageOpBytes[] {chars.at(0), chars.at(1)};
-        short messageOp = bytesToShort(messageOpBytes);
+        char messageOpBytes[] {chars.at(2), chars.at(3)};
+        int messageOp = convertTwoBytesToInt(messageOpBytes);
         if (chars.size()>4){
             int i=4;
             std::string content;
@@ -164,8 +167,8 @@ bool EncoderDecoder::decode(std::string& line) {
         }
     }
     else if(opCode==11){ //error
-        char messageOpBytes[] {chars.at(0), chars.at(1)};
-        short messageOp = bytesToShort(messageOpBytes);
+        char messageOpBytes[] {chars.at(2), chars.at(3)};
+        int messageOp = convertTwoBytesToInt(messageOpBytes);
 //        printf("ERROR %d\n", messageOp);
         line.append("ERROR " + std::to_string(messageOp) + "\n");
 
@@ -194,4 +197,10 @@ short EncoderDecoder::bytesToShort(char* bytesArr)
     short result = (short)((bytesArr[0] & 0xff) << 8);
     result += (short)(bytesArr[1] & 0xff);
     return result;
+}
+
+int EncoderDecoder::convertTwoBytesToInt(char* bytes){
+    int first = bytes[0] - '0';
+    int second = bytes[1] - '0';
+    return first*10+second;
 }

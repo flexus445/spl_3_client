@@ -9,6 +9,7 @@ class EncoderDecoder{
 public:
     bool encode(std::string& line);
     bool decode(std::string& line);
+    int convertTwoBytesToInt(char* bytes);
     EncoderDecoder();
 
 private:
