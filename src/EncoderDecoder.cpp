@@ -154,11 +154,11 @@ bool EncoderDecoder::decode(std::string& line) {
         char notificationType = chars.at(2);
         int i=3;
         std::string postingUser;
-        while (i<chars.size() && chars.at(i)!='\0'){
+//        while (i<chars.size() && chars.at(i)!='\0'){
             postingUser.append(&chars.at(i));//todo: check it
-            i++;
-        }
-        i++; //todo: check if it skips the 0
+//            i++;
+//        }
+        i=4+postingUser.length(); //todo: check if it skips the 0
         std::string content;
 //        while (i<chars.size() && chars.at(i)!='\0'){
 //            content.append(&chars.at(i));//todo: check it
