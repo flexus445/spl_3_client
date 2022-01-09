@@ -70,7 +70,12 @@ bool EncoderDecoder::encode(std::string& line) {
         line.append(to_string(opCodeBytes[0]) + to_string(opCodeBytes[1]) + follow_unfollow + zero + username + zero);
     }
     else if(opType=="POST"){
-        std::string content = words.at(1);
+        std::string content;
+        for(int i=0; i<words.size()-1; i++) {
+            content.append(words.at(i+1));
+            if(i<words.size()-2)
+                content.append(" ");
+        }
         char zero = '\0';
         char opCodeBytes[2];
         short opTypeShort = 5;
@@ -80,7 +85,13 @@ bool EncoderDecoder::encode(std::string& line) {
     }
     else if(opType=="PM"){
         std::string username = words.at(1);
-        std::string content = words.at(2);
+        std::string content;
+        for(int i=0; i<words.size()-2; i++) {
+            content.append(words.at(i+2));
+            if(i<words.size()-3)
+                content.append(" ");
+        }
+
         char zero = '\0';
         char opCodeBytes[2];
         short opTypeShort = 6;
@@ -143,16 +154,17 @@ bool EncoderDecoder::decode(std::string& line) {
         char notificationType = chars.at(2);
         int i=3;
         std::string postingUser;
-        while (i<chars.size() && chars.at(i)!='0'){
+        while (i<chars.size() && chars.at(i)!='\0'){
             postingUser.append(&chars.at(i));//todo: check it
             i++;
         }
         i++; //todo: check if it skips the 0
         std::string content;
-        while (i<chars.size() && chars.at(i)!='0'){
-            content.append(&chars.at(i));//todo: check it
-            i++;
-        }
+//        while (i<chars.size() && chars.at(i)!='\0'){
+//            content.append(&chars.at(i));//todo: check it
+//            i++;
+//        }
+        content.append(chars.begin()+i,chars.end()-1);
         std::string type = "PM";
         if(notificationType=='1')
             type="Public";
@@ -167,10 +179,7 @@ bool EncoderDecoder::decode(std::string& line) {
         if (chars.size()>4){
             int i=4;
             std::string content;
-            while (i<chars.size()){
-                content.append(&chars.at(i));//todo: check it
-                i++;
-            }
+            content.append(chars.begin()+i,chars.end());
             line.append("ACK " + std::to_string(messageOp) + " " + content + "\n");
 
 //            printf("ERROR %d %s\n", messageOp, content.c_str());//todo: check it
