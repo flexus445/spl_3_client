@@ -71,7 +71,7 @@ bool EncoderDecoder::encode(std::string& line) {
     }
     else if(opType=="POST"){
         std::string content;
-        for(int i=0; i<words.size()-1; i++) {
+        for(unsigned int i=0; i<words.size()-1; i++) {
             content.append(words.at(i+1));
             if(i<words.size()-2)
                 content.append(" ");
@@ -86,7 +86,7 @@ bool EncoderDecoder::encode(std::string& line) {
     else if(opType=="PM"){
         std::string username = words.at(1);
         std::string content;
-        for(int i=0; i<words.size()-2; i++) {
+        for(unsigned int i=0; i<words.size()-2; i++) {
             content.append(words.at(i+2));
             if(i<words.size()-3)
                 content.append(" ");
