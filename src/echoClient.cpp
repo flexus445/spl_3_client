@@ -47,8 +47,8 @@ int main (int argc, char *argv[]) {
     });
     readingThread.detach();
 
-
-    while (1) {
+    int running=1;
+    while (running) {
         std::string answer;
         if (!connectionHandler.getLine(answer)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
@@ -61,6 +61,11 @@ int main (int argc, char *argv[]) {
 //		int len=answer.length();
 //        answer.resize(len-1); //to remove the ; at the end
         std::cout << answer << std::endl;
+        if(answer=="ACK 3\n")
+        {
+            terminated=true;
+            running=0;
+        }
         /*
         if(answer=="ACK"){
             std::string cut_answer(answer.substr(spaceAt+1, answer.length()));
